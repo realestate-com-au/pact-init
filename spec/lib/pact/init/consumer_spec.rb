@@ -104,5 +104,21 @@ describe Pact::Init::Consumer do
       end
 
     end
+
+    context 'when either of the arguments have been given with leading and traliing white space' do
+      let(:consumer) { '    Foo Consumer     ' }
+      let(:provider) { '    Bar Provider     ' }
+
+      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
+
+      before { Pact::Init::Consumer.run(consumer_and_provider_args) }
+
+      it 'strips the white space from both ends' do
+        expected = File.read('spec/fixtures/pact_helper_custom.rb')
+        actual = File.read(pact_helper_file)
+        expect(actual).to eq(expected)
+      end
+
+    end
   end
 end
