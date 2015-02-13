@@ -32,29 +32,14 @@ describe Pact::Init::Consumer do
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
-    end
-
-    context 'when consumer and provider args are specified' do
-
-      xit 'creates the directory' do
-        expect(Dir.exists?(provider_dir)).to eq(true)
-      end
-
-      xit 'creates the file with the given names' do
-        expect(File.exists?(pact_helper_file)).to eq(true)
-      end
-
-      xit 'generates sample code with given consumer provider names' do
-
-
-      end
 
     end
 
     context 'when consumer arg is specified only' do
       let(:consumer) { 'Foo Consumer' }
+      let(:just_consumer_args) { {consumer: consumer} }
 
-      before { Pact::Init::Consumer.run(consumer) }
+      before { Pact::Init::Consumer.run(just_consumer_args) }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -74,20 +59,49 @@ describe Pact::Init::Consumer do
 
     context 'when provider arg is specified only' do
 
-      xit 'creates the directory' do
+      let(:provider) { 'Bar Provider' }
+      let(:just_provider_args) { {provider: provider} }
+
+      before { Pact::Init::Consumer.run(just_provider_args) }
+
+      it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
       end
 
-      xit 'creates the helper file' do
-
+      it 'creates the helper file' do
+        expect(File.exists?(pact_helper_file)).to eq(true)
       end
 
-      xit 'generates sample code with given provider name and default consumer name' do
-
+      it 'generates sample code with given provider name and default consumer name' do
+        expected = File.read('spec/fixtures/pact_helper_custom_provider.rb')
+        actual = File.read(pact_helper_file)
+        expect(actual).to eq(expected)
       end
 
     end
 
-end
 
+    context 'when consumer and provider args are specified' do
+      let(:consumer) { 'Foo Consumer' }
+      let(:provider) { 'Bar Provider' }
+
+      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
+
+      before { Pact::Init::Consumer.run(consumer_and_provider_args) }
+
+      xit 'creates the directory' do
+        expect(Dir.exists?(provider_dir)).to eq(true)
+      end
+
+      xit 'creates the file with the given names' do
+        expect(File.exists?(pact_helper_file)).to eq(true)
+      end
+
+      xit 'generates sample code with given consumer provider names' do
+
+
+      end
+
+    end
+  end
 end
