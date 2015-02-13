@@ -1,7 +1,3 @@
 require "pact/init/version"
-
-module Pact
-  module Init
-    # Your code goes here...
-  end
-end
+require "pact/init/consumer"
+require "pact/init/cli"
