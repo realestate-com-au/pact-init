@@ -10,16 +10,16 @@ describe 'The pact-init-consumer command line interface' do
       Dir.chdir('test')
     end
 
-    # after do
-    #   Dir.chdir('..')
-    #   FileUtils.rm_rf('test')
-    # end
+    after do
+      Dir.chdir('..')
+      FileUtils.rm_rf('test')
+    end
 
     it 'creates the desired files and folder structure' do
       %x(bundle exec ../bin/pact-init-consumer)
-      expect(Dir.exists?('test/spec/service_providers')).to eq(true)
-      expect(File.exists?('test/spec/service_providers/pact_helper.rb')).to eq(true)
-      expect(File.read('test/spec/service_providers/pact_helper.rb')).to eq(File.read('spec/fixtures/pact_helper.rb'))
+      expect(Dir.exists?('spec/service_providers')).to eq(true)
+      expect(File.exists?('spec/service_providers/pact_helper.rb')).to eq(true)
+      expect(File.read('spec/service_providers/pact_helper.rb')).to eq(File.read('../spec/fixtures/pact_helper.rb'))
     end
   end
 

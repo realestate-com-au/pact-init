@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'pact/init/CLI'
+# require 'pact/init/CLI'
 
-describe Pact::Init::CLI do
-
-end
+# describe Pact::Init::CLI do
+#
+# end
