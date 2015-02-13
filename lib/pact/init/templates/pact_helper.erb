@@ -1,6 +1,6 @@
 require 'pact/consumer/rspec'
 
-Pact.service_consumer 'My Consumer' do
+Pact.service_consumer '<%= consumer %>' do
   has_pact_with 'My Provider' do
     mock_service :my_provider do
       port 1234

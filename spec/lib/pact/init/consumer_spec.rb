@@ -52,7 +52,8 @@ describe Pact::Init::Consumer do
     end
 
     context 'when consumer arg is specified only' do
-      let(:consumer) { 'Foo' }
+      let(:consumer) { 'Foo Consumer' }
+
       before { Pact::Init::Consumer.run(consumer) }
 
       it 'creates the directory' do
