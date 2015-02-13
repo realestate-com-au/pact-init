@@ -89,17 +89,18 @@ describe Pact::Init::Consumer do
 
       before { Pact::Init::Consumer.run(consumer_and_provider_args) }
 
-      xit 'creates the directory' do
+      it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
       end
 
-      xit 'creates the file with the given names' do
+      it 'creates the file with the given names' do
         expect(File.exists?(pact_helper_file)).to eq(true)
       end
 
-      xit 'generates sample code with given consumer provider names' do
-
-
+      it 'generates sample code with given consumer provider names' do
+        expected = File.read('spec/fixtures/pact_helper_custom.rb')
+        actual = File.read(pact_helper_file)
+        expect(actual).to eq(expected)
       end
 
     end
