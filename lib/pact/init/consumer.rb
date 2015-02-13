@@ -1,3 +1,4 @@
+require 'erb'
 
 module Pact
   module Init
@@ -10,6 +11,7 @@ module Pact
       def run
         create_directory
         create_files
+        generate_pact_helper
       end
 
       def create_directory
@@ -22,6 +24,12 @@ module Pact
 
       def create_files
         FileUtils.touch(provider_dir+'/'+'pact_helper.rb')
+      end
+
+      def generate_pact_helper
+        template_string = File.read(File.expand_path( '../templates/pact_helper.erb', __FILE__))
+        render = ERB.new(template_string).result(binding)
+        File.open(provider_dir+'/'+'pact_helper.rb', "w+"){ |f| f.write(render) }
       end
 
     end

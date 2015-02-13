@@ -11,7 +11,7 @@ describe Pact::Init::Consumer do
 
       before do
         allow_any_instance_of(Pact::Init::Consumer).to receive(:provider_dir).and_return(provider_dir)
-        expect(Dir.exists?('specz/service_providers')).to eq(false)
+        expect(Dir.exists?(provider_dir)).to eq(false)
         Pact::Init::Consumer.run
       end
 
@@ -27,8 +27,10 @@ describe Pact::Init::Consumer do
         expect(File.exists?(pact_helper_file)).to eq(true)
       end
 
-      xit 'generates the sample code with default consumer provider names' do
-
+      it 'generates the sample code with default consumer provider names' do
+        expected = File.read('spec/fixtures/pact_helper.rb')
+        actual = File.read(pact_helper_file)
+        expect(actual).to eq(expected)
       end
     end
 
@@ -52,7 +54,7 @@ describe Pact::Init::Consumer do
     context 'when --consumer arg is specified only' do
 
       xit 'creates the directory' do
-
+        expect(Dir.exists?(provider_dir)).to eq(true)
       end
 
       xit 'creates the helper file' do
@@ -69,7 +71,7 @@ describe Pact::Init::Consumer do
     context 'when --provider arg is specified only' do
 
       xit 'creates the directory' do
-
+        expect(Dir.exists?(provider_dir)).to eq(true)
       end
 
       xit 'creates the helper file' do
