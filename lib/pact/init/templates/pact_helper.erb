@@ -1,8 +1,8 @@
 require 'pact/consumer/rspec'
 
 Pact.service_consumer '<%= @names[:consumer] %>' do
-  has_pact_with 'My Provider' do
-    mock_service :my_provider do
+  has_pact_with '<%= @names[:provider] %>' do
+    mock_service :<%= @names[:provider].downcase.gsub(' ', '_')  %> do
       port 1234
     end
   end
