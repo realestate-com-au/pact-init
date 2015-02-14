@@ -1,0 +1,9 @@
+require 'pact/consumer/rspec'
+
+Pact.service_consumer '<%= @names[:consumer].strip %>' do
+  has_pact_with '<%= @names[:provider].strip %>' do
+    mock_service :<%= @names[:provider].strip.downcase.gsub(' ', '_')  %> do
+      port 1234
+    end
+  end
+end
