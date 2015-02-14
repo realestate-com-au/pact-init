@@ -10,11 +10,11 @@ module Pact
       method_option :provider, aliases: "--provider", :desc => "The name of your provider"
 
       def create(args = {})
-        if !options[:consumer].nil?
-          args[:consumer] << options[:consumer]
+        if !options['consumer'].nil?
+          args[:consumer] = options['consumer']
         end
-        if !options[:provider].nil?
-          args[:provider] << options[:provider]
+        if !options['provider'].nil?
+          args[:provider] = options['provider']
         end
         Pact::Init::Consumer.run(args)
       end
