@@ -55,6 +55,22 @@ describe Pact::Init::Provider do
       end
     end
 
+    context 'when provider and consumer args are specified' do
+      let(:provider) {'Bar Provider'}
+      let(:consumer) {'Foo Consumer'}
+      let(:both_args) { {provider: provider , consumer: consumer} }
+
+      before { Pact::Init::Provider.run(both_args) }
+
+      it 'create the directory' do
+        expect(Dir.exists?(consumer_dir)).to eq(true)
+      end
+
+      it 'creates the helper file' do
+        expect(File.exists?(pact_helper_file)).to eq(true)
+      end
+    end
+
   end
 
 end
