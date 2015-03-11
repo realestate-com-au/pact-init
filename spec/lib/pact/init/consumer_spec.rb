@@ -28,7 +28,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates the sample code with default consumer provider names' do
-        expected = File.read('spec/fixtures/pact_helper.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -50,7 +50,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates sample code with given consumer name and default provider name' do
-        expected = File.read('spec/fixtures/pact_helper_custom_consumer.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom_consumer.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -73,7 +73,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates sample code with given provider name and default consumer name' do
-        expected = File.read('spec/fixtures/pact_helper_custom_provider.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom_provider.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -98,7 +98,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates sample code with given consumer provider names' do
-        expected = File.read('spec/fixtures/pact_helper_custom.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -114,7 +114,7 @@ describe Pact::Init::Consumer do
       before { Pact::Init::Consumer.run(consumer_and_provider_args) }
 
       it 'strips the white space from both ends' do
-        expected = File.read('spec/fixtures/pact_helper_custom.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end

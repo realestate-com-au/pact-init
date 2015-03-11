@@ -28,7 +28,7 @@ module Pact
       end
 
       def generate_pact_helper
-        template_string = File.read(File.expand_path( '../templates/pact_helper.erb', __FILE__))
+        template_string = File.read(File.expand_path( '../templates/consumer/pact_helper.erb', __FILE__))
         render = ERB.new(template_string).result(binding)
         File.open(provider_dir+'/'+'pact_helper.rb', "w+"){ |f| f.write(render) }
       end
