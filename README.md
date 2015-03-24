@@ -64,7 +64,7 @@ Pact.provider_states_for 'My Consumer' do
   end
 end
 ```
-You can use either or both of the two optional parameters to customise the names of the consumer and provider. eg..
+You can use either or both of the two optional parameters to customise the names of the consumer and provider. eg..  
 ``$ pact-init-provider --consumer "Foo Consumer" --provider "Bar Provider"``
 
 ## Contributing
