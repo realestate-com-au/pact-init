@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'pact/init/consumer'
 
 describe Pact::Init::Consumer do
-  describe '#new' do
+  describe '#run' do
 
     let(:provider_dir) { 'specz/some_provider_dir' }
     let(:pact_helper_file) { provider_dir + '/' + 'pact_helper.rb' }

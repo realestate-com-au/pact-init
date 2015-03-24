@@ -5,7 +5,7 @@ module Pact
   module Init
     class CLI < Thor
 
-      desc 'create' , "run the command line interface"
+      desc 'create' , "initalize your spec dir with the helper class"
       method_option :consumer, aliases: "--consumer", :desc => "The name of your consumer"
       method_option :provider, aliases: "--provider", :desc => "The name of your provider"
 
@@ -17,8 +17,8 @@ module Pact
           args[:provider] = options['provider']
         end
         Pact::Init::Consumer.run(args)
+        puts 'Cngratulations, you are now ready to pact!'
       end
-
       default_task :create
     end
   end
