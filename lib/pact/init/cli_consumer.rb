@@ -3,7 +3,7 @@ require 'pact/init'
 
 module Pact
   module Init
-    class CLI < Thor
+    class CLIConsumer < Thor
 
       desc 'create' , "initalize your spec dir with the helper class"
       method_option :consumer, aliases: "--consumer", :desc => "The name of your consumer"

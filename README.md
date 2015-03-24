@@ -38,7 +38,7 @@ end
 ```
 
 You can use either or both of the two optional parameters to customise the names of the consumer and provider. eg..  
-`$ pact-init-consumer --consumer "Foo Consumer" --provider "Bar Provider" `  
+`$ pact-init --consumer "Foo Consumer" --provider "Bar Provider" `  
 
 TODO  
 ```$ pact-init-provider```
