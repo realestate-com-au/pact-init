@@ -42,8 +42,8 @@ module Pact
       end
 
       def parse_names(names)
-        names[:consumer] = 'My Consumer' unless names.has_key? :consumer
-        names[:provider] = 'My Provider' unless names.has_key? :provider
+        names[:consumer] ||= 'My Consumer' unless names.has_key? :consumer
+        names[:provider] ||= 'My Provider' unless names.has_key? :provider
         names
       end
     end
