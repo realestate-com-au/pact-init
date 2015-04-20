@@ -17,7 +17,7 @@
       end
 
       context 'when no arguments are specified' do
-        before { Pact::Init::Provider.run }
+        before { Pact::Init::Provider.call }
 
         it 'creates the directory' do
           expect(Dir.exists?(consumer_dir)).to eq(true)
@@ -45,7 +45,7 @@
         let(:provider) { 'Bar Provider' }
         let(:just_provider_args) { {provider: provider} }
 
-        before { Pact::Init::Provider.run(just_provider_args) }
+        before { Pact::Init::Provider.call(just_provider_args) }
 
         it 'creates the directory' do
           expect(Dir.exists?(consumer_dir)).to eq(true)
@@ -74,7 +74,7 @@
         let(:consumer) {'Foo Consumer'}
         let(:both_args) { {provider: provider , consumer: consumer} }
 
-        before { Pact::Init::Provider.run(both_args) }
+        before { Pact::Init::Provider.call(both_args) }
 
         it 'create the directory' do
           expect(Dir.exists?(consumer_dir)).to eq(true)
@@ -104,7 +104,7 @@
 
         let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
 
-        before { Pact::Init::Provider.run(consumer_and_provider_args) }
+        before { Pact::Init::Provider.call(consumer_and_provider_args) }
 
         it 'strips the white space from both ends' do
           expected = File.read('spec/fixtures/provider/pact_helper_custom.rb')

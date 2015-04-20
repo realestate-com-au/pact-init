@@ -16,7 +16,7 @@ module Pact
         if options['provider']
           args[:provider] = options['provider']
         end
-        Pact::Init::Provider.run(args)
+        Pact::Init::Provider.call(args)
         puts 'Congratulations, you are now ready to pact!'
       end
       default_task :create

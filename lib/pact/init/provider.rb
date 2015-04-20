@@ -4,7 +4,7 @@ module Pact
   module Init
     class Provider
 
-      def self.run(names = {})
+      def self.call(names = {})
         new.run(names)
       end
 

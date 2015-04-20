@@ -4,7 +4,7 @@ module Pact
   module Init
     class Consumer
 
-      def self.run(names = {})
+      def self.call(names = {})
         new.run(names)
       end
 
