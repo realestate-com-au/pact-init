@@ -1,4 +1,4 @@
-Pact.provider_states_for '<%= @names[:consumer].strip %>' do
+Pact.provider_states_for '<%= consumer_name %>' do
   provider_state 'there is a thing' do
     set_up do
       # Set up the provider state here (eg. insert record into a database)
