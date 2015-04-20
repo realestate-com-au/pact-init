@@ -38,6 +38,18 @@ module Pact
         names[:provider] ||= 'My Provider' unless names.has_key? :provider
         names
       end
+
+      def consumer_name
+        @names[:consumer].strip
+      end
+
+      def provider_name
+        @names[:provider].strip
+      end
+
+      def provider_to_symb
+        provider_name.downcase.gsub(' ', '_')
+      end
     end
   end
 end
