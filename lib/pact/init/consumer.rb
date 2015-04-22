@@ -4,7 +4,7 @@ module Pact
   module Init
     class Consumer
 
-      def self.run(names = {})
+      def self.call(names = {})
         new.run(names)
       end
 
@@ -28,15 +28,27 @@ module Pact
       end
 
       def generate_pact_helper
-        template_string = File.read(File.expand_path( '../templates/pact_helper.erb', __FILE__))
+        template_string = File.read(File.expand_path( '../templates/consumer/pact_helper.erb', __FILE__))
         render = ERB.new(template_string).result(binding)
         File.open(provider_dir+'/'+'pact_helper.rb', "w+"){ |f| f.write(render) }
       end
 
       def parse_names(names)
-        names[:consumer] = 'My Consumer' unless names.has_key? :consumer
-        names[:provider] = 'My Provider' unless names.has_key? :provider
+        names[:consumer] ||= 'My Consumer' unless names.has_key? :consumer
+        names[:provider] ||= 'My Provider' unless names.has_key? :provider
         names
+      end
+
+      def consumer_name
+        @names[:consumer].strip
+      end
+
+      def provider_name
+        @names[:provider].strip
+      end
+
+      def provider_to_symb
+        provider_name.downcase.gsub(' ', '_')
       end
     end
   end

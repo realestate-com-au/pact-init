@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'pact/init/consumer'
 
 describe Pact::Init::Consumer do
-  describe '#new' do
+  describe '#run' do
 
     let(:provider_dir) { 'specz/some_provider_dir' }
     let(:pact_helper_file) { provider_dir + '/' + 'pact_helper.rb' }
@@ -17,7 +17,7 @@ describe Pact::Init::Consumer do
     end
 
     context 'when no arguments are specified' do
-      before { Pact::Init::Consumer.run }
+      before { Pact::Init::Consumer.call }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -28,7 +28,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates the sample code with default consumer provider names' do
-        expected = File.read('spec/fixtures/pact_helper.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -39,7 +39,7 @@ describe Pact::Init::Consumer do
       let(:consumer) { 'Foo Consumer' }
       let(:just_consumer_args) { {consumer: consumer} }
 
-      before { Pact::Init::Consumer.run(just_consumer_args) }
+      before { Pact::Init::Consumer.call(just_consumer_args) }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -50,7 +50,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates sample code with given consumer name and default provider name' do
-        expected = File.read('spec/fixtures/pact_helper_custom_consumer.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom_consumer.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -62,7 +62,7 @@ describe Pact::Init::Consumer do
       let(:provider) { 'Bar Provider' }
       let(:just_provider_args) { {provider: provider} }
 
-      before { Pact::Init::Consumer.run(just_provider_args) }
+      before { Pact::Init::Consumer.call(just_provider_args) }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -73,7 +73,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates sample code with given provider name and default consumer name' do
-        expected = File.read('spec/fixtures/pact_helper_custom_provider.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom_provider.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -87,7 +87,7 @@ describe Pact::Init::Consumer do
 
       let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
 
-      before { Pact::Init::Consumer.run(consumer_and_provider_args) }
+      before { Pact::Init::Consumer.call(consumer_and_provider_args) }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -98,7 +98,7 @@ describe Pact::Init::Consumer do
       end
 
       it 'generates sample code with given consumer provider names' do
-        expected = File.read('spec/fixtures/pact_helper_custom.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
@@ -111,10 +111,10 @@ describe Pact::Init::Consumer do
 
       let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
 
-      before { Pact::Init::Consumer.run(consumer_and_provider_args) }
+      before { Pact::Init::Consumer.call(consumer_and_provider_args) }
 
       it 'strips the white space from both ends' do
-        expected = File.read('spec/fixtures/pact_helper_custom.rb')
+        expected = File.read('spec/fixtures/consumer/pact_helper_custom.rb')
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end

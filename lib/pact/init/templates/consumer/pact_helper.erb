@@ -1,0 +1,9 @@
+require 'pact/consumer/rspec'
+
+Pact.service_consumer '<%= consumer_name %>' do
+  has_pact_with '<%= provider_name %>' do
+    mock_service :<%= provider_to_symb  %> do
+      port 1234
+    end
+  end
+end

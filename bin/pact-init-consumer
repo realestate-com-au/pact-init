@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'pact/init/cli'
+require 'pact/init/cli_consumer'
 
-Pact::Init::CLI.start
+Pact::Init::CLIConsumer.start
