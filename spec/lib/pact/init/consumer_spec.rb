@@ -4,16 +4,16 @@ require 'pact/init/consumer'
 describe Pact::Init::Consumer do
   describe '#run' do
 
-    let(:provider_dir) { 'tmp/specz/some_provider_dir' }
+    let(:spec_dir) { 'tmp/specz' }
+    let(:provider_dir) { 'tmp/specz/service_providers' }
     let(:pact_helper_file) { provider_dir + '/' + 'pact_helper.rb' }
 
     before do
-      allow_any_instance_of(Pact::Init::Consumer).to receive(:provider_dir).and_return(provider_dir)
       FileUtils.rm_rf('tmp/specz')
     end
 
     context 'when no arguments are specified' do
-      before { Pact::Init::Consumer.call }
+      before { Pact::Init::Consumer.call spec_dir: spec_dir }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -33,7 +33,7 @@ describe Pact::Init::Consumer do
 
     context 'when consumer arg is specified only' do
       let(:consumer) { 'Foo Consumer' }
-      let(:just_consumer_args) { {consumer: consumer} }
+      let(:just_consumer_args) { {consumer: consumer, spec_dir: spec_dir} }
 
       before { Pact::Init::Consumer.call(just_consumer_args) }
 
@@ -56,7 +56,7 @@ describe Pact::Init::Consumer do
     context 'when provider arg is specified only' do
 
       let(:provider) { 'Bar Provider' }
-      let(:just_provider_args) { {provider: provider} }
+      let(:just_provider_args) { {provider: provider, spec_dir: spec_dir} }
 
       before { Pact::Init::Consumer.call(just_provider_args) }
 
@@ -81,7 +81,7 @@ describe Pact::Init::Consumer do
       let(:consumer) { 'Foo Consumer' }
       let(:provider) { 'Bar Provider' }
 
-      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
+      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider, spec_dir: spec_dir} }
 
       before { Pact::Init::Consumer.call(consumer_and_provider_args) }
 
@@ -105,7 +105,7 @@ describe Pact::Init::Consumer do
       let(:consumer) { '    Foo Consumer     ' }
       let(:provider) { '    Bar Provider     ' }
 
-      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
+      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider, spec_dir: spec_dir} }
 
       before { Pact::Init::Consumer.call(consumer_and_provider_args) }
 

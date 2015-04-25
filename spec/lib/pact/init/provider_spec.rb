@@ -3,17 +3,17 @@
 
   describe Pact::Init::Provider do
     describe '#new' do
-      let(:consumer_dir) { 'tmp/specz/some_consumer_dir' }
+      let(:spec_dir) { 'tmp/specz' }
+      let(:consumer_dir) { 'tmp/specz/service_consumers' }
       let(:pact_helper_file) { consumer_dir + '/' + 'pact_helper.rb' }
       let(:provider_states_file) { consumer_dir + '/' + 'provider_states_for_my_consumer.rb' }
 
       before do
-        allow_any_instance_of(Pact::Init::Provider).to receive(:consumer_dir).and_return(consumer_dir)
         FileUtils.rm_rf('tmp/specz')
       end
 
       context 'when no arguments are specified' do
-        before { Pact::Init::Provider.call }
+        before { Pact::Init::Provider.call spec_dir: spec_dir }
 
         it 'creates the directory' do
           expect(Dir.exists?(consumer_dir)).to eq(true)
@@ -39,7 +39,7 @@
 
       context 'when provider arg is specified only' do
         let(:provider) { 'Bar Provider' }
-        let(:just_provider_args) { {provider: provider} }
+        let(:just_provider_args) { {provider: provider, spec_dir: spec_dir} }
 
         before { Pact::Init::Provider.call(just_provider_args) }
 
@@ -68,7 +68,7 @@
       context 'when provider and consumer args are specified' do
         let(:provider) {'Bar Provider'}
         let(:consumer) {'Foo Consumer'}
-        let(:both_args) { {provider: provider , consumer: consumer} }
+        let(:both_args) { {provider: provider , consumer: consumer, spec_dir: spec_dir} }
 
         before { Pact::Init::Provider.call(both_args) }
 
@@ -98,7 +98,7 @@
         let(:consumer) { '    Foo Consumer     ' }
         let(:provider) { '    Bar Provider     ' }
 
-        let(:consumer_and_provider_args) { {consumer: consumer, provider: provider} }
+        let(:consumer_and_provider_args) { {consumer: consumer, provider: provider, spec_dir: spec_dir} }
 
         before { Pact::Init::Provider.call(consumer_and_provider_args) }
 

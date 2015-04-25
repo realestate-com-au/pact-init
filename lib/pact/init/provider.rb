@@ -4,12 +4,13 @@ module Pact
   module Init
     class Provider
 
-      def self.call(names = {})
-        new.run(names)
+      def self.call(options = {})
+        new.run(options)
       end
 
-      def run(names)
-        @names = parse_names(names)
+      def run(options)
+        @options = parse_options(options)
+        @spec_dir = options[:spec_dir] || 'spec'
         create_directory
         create_files
         generate_pact_helper
@@ -26,7 +27,7 @@ module Pact
       end
 
       def consumer_dir
-        'spec/service_consumers'
+        File.join(@spec_dir, 'service_consumers')
       end
 
       def generate_pact_helper
@@ -41,18 +42,18 @@ module Pact
         File.open(consumer_dir+'/'+'provider_states_for_my_consumer.rb', "w+"){ |f| f.write(render) }
       end
 
-      def parse_names(names)
-        names[:consumer] ||= 'My Consumer' unless names.has_key? :consumer
-        names[:provider] ||= 'My Provider' unless names.has_key? :provider
-        names
+      def parse_options(options)
+        options[:consumer] ||= 'My Consumer' unless options.has_key? :consumer
+        options[:provider] ||= 'My Provider' unless options.has_key? :provider
+        options
       end
 
       def consumer_name
-        @names[:consumer].strip
+        @options[:consumer].strip
       end
 
       def provider_name
-        @names[:provider].strip
+        @options[:provider].strip
       end
     end
   end
