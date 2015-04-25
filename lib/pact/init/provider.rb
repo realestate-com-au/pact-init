@@ -16,6 +16,8 @@ module Pact
         generate_provider_states
       end
 
+      private
+
       def create_directory
         FileUtils.mkdir_p(consumer_dir)
       end

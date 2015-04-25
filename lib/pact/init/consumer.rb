@@ -15,6 +15,8 @@ module Pact
         generate_pact_helper
       end
 
+      private
+
       def create_directory
         FileUtils.mkdir_p(provider_dir)
       end
