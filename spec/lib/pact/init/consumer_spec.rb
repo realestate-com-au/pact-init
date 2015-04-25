@@ -2,7 +2,8 @@ require 'spec_helper'
 require 'pact/init/consumer'
 
 describe Pact::Init::Consumer do
-  describe '#run' do
+
+  describe '.call' do
 
     let(:spec_dir) { 'tmp/specz' }
     let(:provider_dir) { 'tmp/specz/service_providers' }

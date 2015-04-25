@@ -5,10 +5,10 @@ module Pact
     class Consumer
 
       def self.call(options = {})
-        new.run(options)
+        new.call(options)
       end
 
-      def run(options)
+      def call(options)
         @options = parse_options(options)
         @spec_dir = options[:spec_dir] || 'spec'
         create_directory
