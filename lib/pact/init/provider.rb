@@ -49,7 +49,7 @@ module Pact
       def create_file_from_template template_path, file_path
         template_string = File.read(template_path)
         render = ERB.new(template_string).result(binding)
-        File.open(file_path, "w+"){ |f| f.write(render) }
+        File.open(file_path, "w"){ |f| f.write(render) }
       end
 
       def parse_options(options)
