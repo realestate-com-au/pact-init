@@ -12,7 +12,6 @@ module Pact
         @options = parse_options(options)
         @spec_dir = options[:spec_dir] || 'spec'
         create_directory
-        create_files
         generate_pact_helper
       end
 
@@ -22,10 +21,6 @@ module Pact
 
       def provider_dir
         File.join(@spec_dir, 'service_providers')
-      end
-
-      def create_files
-        FileUtils.touch(provider_dir+'/'+'pact_helper.rb')
       end
 
       def generate_pact_helper
