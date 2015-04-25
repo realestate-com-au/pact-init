@@ -5,7 +5,7 @@ module Pact
   module Init
     class CLIProvider < Thor
 
-      desc 'create' , "initalize your spec dir with the helper class"
+      desc 'create' , "Initalize your spec dir with the pact helper file"
       method_option :consumer, aliases: "--consumer", :desc => "The name of your consumer"
       method_option :provider, aliases: "--provider", :desc => "The name of your provider"
 
