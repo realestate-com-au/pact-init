@@ -37,34 +37,6 @@
         end
       end
 
-      context 'when provider arg is specified only' do
-        let(:provider) { 'Bar Provider' }
-        let(:just_provider_args) { {provider: provider, spec_dir: spec_dir} }
-
-        before { Pact::Init::Provider.call(just_provider_args) }
-
-        it 'creates the directory' do
-          expect(Dir.exists?(consumer_dir)).to eq(true)
-        end
-
-        it 'creates the helper files' do
-          expect(File.exists?(pact_helper_file)).to eq(true)
-          expect(File.exists?(provider_states_file)).to eq(true)
-        end
-
-        it 'generates sample pact_helper code with given provider name and default consumer name' do
-          expected = File.read('spec/fixtures/provider/pact_helper_custom_provider.rb')
-          actual = File.read(pact_helper_file)
-          expect(actual).to eq(expected)
-        end
-
-        it 'generates the sample provider_states code with default consumer name' do
-          expected = File.read('spec/fixtures/provider/provider_states_for_my_consumer.rb')
-          actual = File.read(provider_states_file)
-          expect(actual).to eq(expected)
-        end
-      end
-
       context 'when provider and consumer args are specified' do
         let(:provider) {'Bar Provider'}
         let(:consumer) {'Foo Consumer'}
