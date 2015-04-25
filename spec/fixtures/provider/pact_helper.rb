@@ -1,5 +1,5 @@
 require 'pact/provider/rspec'
-require 'service_consumers/provider_states_for_my_consumer'
+Dir.glob("tmp/specz/service_consumers/provider_states_for*.rb") { |file| require file }
 
 Pact.service_provider 'My Provider' do
   honours_pact_with 'My Consumer' do

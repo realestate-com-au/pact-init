@@ -42,6 +42,7 @@ describe Pact::Init::Provider do
     context 'when provider and consumer args are specified' do
       let(:provider) {'Bar Provider'}
       let(:consumer) {'Foo Consumer'}
+      let(:provider_states_file) { consumer_dir + '/' + 'provider_states_for_foo_consumer.rb' }
       let(:arguments) { {provider: provider , consumer: consumer, spec_dir: spec_dir} }
 
 

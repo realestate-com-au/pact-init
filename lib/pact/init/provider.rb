@@ -24,6 +24,10 @@ module Pact
         File.join(@spec_dir, 'service_consumers')
       end
 
+      def provider_states_path
+        File.join(consumer_dir, "provider_states_for_#{consumer_name_to_snakecase}.rb")
+      end
+
       def generate_pact_helper
         template_string = File.read(File.expand_path( '../templates/provider/pact_helper.erb', __FILE__))
         render = ERB.new(template_string).result(binding)
@@ -33,7 +37,7 @@ module Pact
       def generate_provider_states
         template_string = File.read(File.expand_path('../templates/provider/provider_states_for_my_consumer.erb', __FILE__))
         render = ERB.new(template_string).result(binding)
-        File.open(consumer_dir+'/'+'provider_states_for_my_consumer.rb', "w+"){ |f| f.write(render) }
+        File.open(provider_states_path, "w+"){ |f| f.write(render) }
       end
 
       def parse_options(options)
@@ -48,6 +52,10 @@ module Pact
 
       def provider_name
         @options[:provider].strip
+      end
+
+      def consumer_name_to_snakecase
+        consumer_name.downcase.gsub(' ', '_')
       end
     end
   end
