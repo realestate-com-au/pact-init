@@ -10,15 +10,12 @@ module Pact
       method_option :provider, aliases: "--provider", :desc => "The name of your provider"
 
       def create(args = {})
-        if options['consumer']
-          args[:consumer] = options['consumer']
-        end
-        if options['provider']
-          args[:provider] = options['provider']
-        end
+        args[:consumer] = options['consumer'] if options['consumer']
+        args[:provider] = options['provider'] if options['provider']
         Pact::Init::Consumer.call(args)
         puts 'Congratulations, you are now ready to pact!'
       end
+
       default_task :create
     end
   end
