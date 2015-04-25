@@ -4,16 +4,12 @@ require 'pact/init/consumer'
 describe Pact::Init::Consumer do
   describe '#run' do
 
-    let(:provider_dir) { 'specz/some_provider_dir' }
+    let(:provider_dir) { 'tmp/specz/some_provider_dir' }
     let(:pact_helper_file) { provider_dir + '/' + 'pact_helper.rb' }
 
     before do
       allow_any_instance_of(Pact::Init::Consumer).to receive(:provider_dir).and_return(provider_dir)
-      expect(Dir.exists?(provider_dir)).to eq(false)
-    end
-
-    after do
-      FileUtils.rm_rf('specz')
+      FileUtils.rm_rf('tmp/specz')
     end
 
     context 'when no arguments are specified' do

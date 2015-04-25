@@ -3,17 +3,13 @@
 
   describe Pact::Init::Provider do
     describe '#new' do
-      let(:consumer_dir) { 'specz/some_consumer_dir' }
+      let(:consumer_dir) { 'tmp/specz/some_consumer_dir' }
       let(:pact_helper_file) { consumer_dir + '/' + 'pact_helper.rb' }
       let(:provider_states_file) { consumer_dir + '/' + 'provider_states_for_my_consumer.rb' }
 
       before do
         allow_any_instance_of(Pact::Init::Provider).to receive(:consumer_dir).and_return(consumer_dir)
-        expect(Dir.exists?(consumer_dir)).to eq(false)
-      end
-
-      after do
-        FileUtils.rm_rf('specz')
+        FileUtils.rm_rf('tmp/specz')
       end
 
       context 'when no arguments are specified' do
