@@ -7,13 +7,14 @@ describe Pact::Init::Consumer do
     let(:spec_dir) { 'tmp/specz' }
     let(:provider_dir) { 'tmp/specz/service_providers' }
     let(:pact_helper_file) { provider_dir + '/' + 'pact_helper.rb' }
+    let(:arguments) { { spec_dir: spec_dir } }
 
     before do
       FileUtils.rm_rf('tmp/specz')
+      Pact::Init::Consumer.call arguments
     end
 
     context 'when no arguments are specified' do
-      before { Pact::Init::Consumer.call spec_dir: spec_dir }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -35,9 +36,7 @@ describe Pact::Init::Consumer do
       let(:consumer) { 'Foo Consumer' }
       let(:provider) { 'Bar Provider' }
 
-      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider, spec_dir: spec_dir} }
-
-      before { Pact::Init::Consumer.call(consumer_and_provider_args) }
+      let(:arguments) { {consumer: consumer, provider: provider, spec_dir: spec_dir} }
 
       it 'creates the directory' do
         expect(Dir.exists?(provider_dir)).to eq(true)
@@ -59,9 +58,7 @@ describe Pact::Init::Consumer do
       let(:consumer) { '    Foo Consumer     ' }
       let(:provider) { '    Bar Provider     ' }
 
-      let(:consumer_and_provider_args) { {consumer: consumer, provider: provider, spec_dir: spec_dir} }
-
-      before { Pact::Init::Consumer.call(consumer_and_provider_args) }
+      let(:arguments) { {consumer: consumer, provider: provider, spec_dir: spec_dir} }
 
       it 'strips the white space from both ends' do
         expected = File.read('spec/fixtures/consumer/pact_helper_custom.rb')
