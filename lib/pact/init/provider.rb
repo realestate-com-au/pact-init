@@ -9,8 +9,9 @@ module Pact
       end
 
       def call(options)
-        @options = parse_options(options)
-        @spec_dir = options[:spec_dir] || 'spec'
+        @consumer_name = (options[:consumer] || 'My Consumer').strip
+        @provider_name = (options[:provider] || 'My Provider').strip
+        @spec_dir      = (options[:spec_dir] || 'spec')
         create_directory
         generate_pact_helper
         generate_provider_states
@@ -18,12 +19,14 @@ module Pact
 
       private
 
+      attr_reader :consumer_name, :provider_name, :spec_dir
+
       def create_directory
         FileUtils.mkdir_p(consumer_dir)
       end
 
       def consumer_dir
-        File.join(@spec_dir, 'service_consumers')
+        File.join(spec_dir, 'service_consumers')
       end
 
       def pact_helper_path
@@ -36,7 +39,7 @@ module Pact
 
       def generate_pact_helper
         create_file_from_template(
-          File.expand_path( '../templates/provider/pact_helper.erb', __FILE__),
+          File.expand_path('../templates/provider/pact_helper.erb', __FILE__),
           pact_helper_path)
       end
 
@@ -50,20 +53,6 @@ module Pact
         template_string = File.read(template_path)
         render = ERB.new(template_string).result(binding)
         File.open(file_path, "w"){ |f| f.write(render) }
-      end
-
-      def parse_options(options)
-        options[:consumer] ||= 'My Consumer' unless options.has_key? :consumer
-        options[:provider] ||= 'My Provider' unless options.has_key? :provider
-        options
-      end
-
-      def consumer_name
-        @options[:consumer].strip
-      end
-
-      def provider_name
-        @options[:provider].strip
       end
 
       def consumer_name_to_snakecase
