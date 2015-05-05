@@ -4,55 +4,59 @@ module Pact
   module Init
     class Provider
 
-      def self.call(names = {})
-        new.run(names)
+      def self.call(options = {})
+        new.call(options)
       end
 
-      def run(names)
-        @names = parse_names(names)
+      def call(options)
+        @consumer_name = (options[:consumer] || 'My Consumer').strip
+        @provider_name = (options[:provider] || 'My Provider').strip
+        @spec_dir      = (options[:spec_dir] || 'spec')
         create_directory
-        create_files
         generate_pact_helper
         generate_provider_states
       end
+
+      private
+
+      attr_reader :consumer_name, :provider_name, :spec_dir
 
       def create_directory
         FileUtils.mkdir_p(consumer_dir)
       end
 
-      def create_files
-        FileUtils.touch(consumer_dir+'/'+'pact_helper.rb')
-        FileUtils.touch(consumer_dir+'/'+'provider_states_for_my_consumer.rb')
+      def consumer_dir
+        File.join(spec_dir, 'service_consumers')
       end
 
-      def consumer_dir
-        'spec/service_consumers'
+      def pact_helper_path
+        File.join(consumer_dir, 'pact_helper.rb')
+      end
+
+      def provider_states_path
+        File.join(consumer_dir, "provider_states_for_#{consumer_name_to_snakecase}.rb")
       end
 
       def generate_pact_helper
-        template_string = File.read(File.expand_path( '../templates/provider/pact_helper.erb', __FILE__))
-        render = ERB.new(template_string).result(binding)
-        File.open(consumer_dir+'/'+'pact_helper.rb', "w+"){ |f| f.write(render) }
+        create_file_from_template(
+          File.expand_path('../templates/provider/pact_helper.erb', __FILE__),
+          pact_helper_path)
       end
 
       def generate_provider_states
-        template_string = File.read(File.expand_path('../templates/provider/provider_states_for_my_consumer.erb', __FILE__))
+        create_file_from_template(
+          File.expand_path('../templates/provider/provider_states_for_my_consumer.erb', __FILE__),
+          provider_states_path)
+      end
+
+      def create_file_from_template template_path, file_path
+        template_string = File.read(template_path)
         render = ERB.new(template_string).result(binding)
-        File.open(consumer_dir+'/'+'provider_states_for_my_consumer.rb', "w+"){ |f| f.write(render) }
+        File.open(file_path, "w"){ |f| f.write(render) }
       end
 
-      def parse_names(names)
-        names[:consumer] ||= 'My Consumer' unless names.has_key? :consumer
-        names[:provider] ||= 'My Provider' unless names.has_key? :provider
-        names
-      end
-
-      def consumer_name
-        @names[:consumer].strip
-      end
-
-      def provider_name
-        @names[:provider].strip
+      def consumer_name_to_snakecase
+        consumer_name.downcase.gsub(' ', '_')
       end
     end
   end

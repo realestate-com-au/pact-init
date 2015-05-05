@@ -3,34 +3,40 @@ require 'pact/init/consumer'
 
 describe 'The pact-init-consumer command line interface' do
 
+  let(:pact_helper_path) { 'tmp/spec/service_providers/pact_helper.rb' }
+  let(:pact_helper_content) { File.read(pact_helper_path) }
+
   before do
-    FileUtils.mkdir_p('test')
-    Dir.chdir('test')
+    FileUtils.rm_rf('tmp')
+    FileUtils.mkdir_p('tmp')
   end
 
-  after do
-    Dir.chdir('..')
-    FileUtils.rm_rf('test')
-  end
+  context 'with no arguments' do
 
-  context 'no arguments' do
+    before do
+      Dir.chdir('tmp') do
+        %x(bundle exec ../bin/pact-init-consumer)
+      end
+    end
 
     it 'creates the desired files and folder structure' do
-      %x(bundle exec ../bin/pact-init-consumer)
-      expect(Dir.exists?('spec/service_providers')).to eq(true)
-      expect(File.exists?('spec/service_providers/pact_helper.rb')).to eq(true)
-      expect(File.read('spec/service_providers/pact_helper.rb')).to eq(File.read('../spec/fixtures/consumer/pact_helper.rb'))
+      expect(pact_helper_content).to match("Pact.service_consumer")
     end
 
   end
 
   context 'with consumer and provider argument' do
 
+    before do
+      Dir.chdir('tmp') do
+        %x(bundle exec ../bin/pact-init-consumer --consumer \" Foo Consumer\" --provider \" Bar Provider \")
+      end
+    end
+
     it 'creates the desired files and folder structure' do
-      %x(bundle exec ../bin/pact-init-consumer --consumer \" Foo Consumer\" --provider \" Bar Provider \")
-      expect(Dir.exists?('spec/service_providers')).to eq(true)
-      expect(File.exists?('spec/service_providers/pact_helper.rb')).to eq(true)
-      expect(File.read('spec/service_providers/pact_helper.rb')).to eq(File.read('../spec/fixtures/consumer/pact_helper_custom.rb'))
+      expect(pact_helper_content).to match("Pact.service_consumer")
+      expect(pact_helper_content).to match("Foo Consumer")
+      expect(pact_helper_content).to match("Bar Provider")
     end
 
   end

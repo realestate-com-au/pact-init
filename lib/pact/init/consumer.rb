@@ -4,47 +4,44 @@ module Pact
   module Init
     class Consumer
 
-      def self.call(names = {})
-        new.run(names)
+      def self.call(options = {})
+        new.call(options)
       end
 
-      def run(names)
-        @names = parse_names(names)
+      def call(options)
+        @consumer_name = (options[:consumer] || 'My Consumer').strip
+        @provider_name = (options[:provider] || 'My Provider').strip
+        @spec_dir      = (options[:spec_dir] || 'spec')
         create_directory
-        create_files
         generate_pact_helper
       end
+
+      private
+
+      attr_reader :consumer_name, :provider_name, :spec_dir
 
       def create_directory
         FileUtils.mkdir_p(provider_dir)
       end
 
       def provider_dir
-        'spec/service_providers'
+        File.join(spec_dir, 'service_providers')
       end
 
-      def create_files
-        FileUtils.touch(provider_dir+'/'+'pact_helper.rb')
+      def pact_helper_path
+        File.join(provider_dir, 'pact_helper.rb')
       end
 
       def generate_pact_helper
-        template_string = File.read(File.expand_path( '../templates/consumer/pact_helper.erb', __FILE__))
+        create_file_from_template(
+          File.expand_path('../templates/consumer/pact_helper.erb', __FILE__),
+          pact_helper_path)
+      end
+
+      def create_file_from_template template_path, file_path
+        template_string = File.read(template_path)
         render = ERB.new(template_string).result(binding)
-        File.open(provider_dir+'/'+'pact_helper.rb', "w+"){ |f| f.write(render) }
-      end
-
-      def parse_names(names)
-        names[:consumer] ||= 'My Consumer' unless names.has_key? :consumer
-        names[:provider] ||= 'My Provider' unless names.has_key? :provider
-        names
-      end
-
-      def consumer_name
-        @names[:consumer].strip
-      end
-
-      def provider_name
-        @names[:provider].strip
+        File.open(file_path, "w"){ |f| f.write(render) }
       end
 
       def provider_to_symb
