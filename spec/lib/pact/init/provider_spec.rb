@@ -68,7 +68,7 @@ describe Pact::Init::Provider do
       end
     end
 
-    context 'when either of the arguments have been given with leading and traliing white space' do
+    context 'when either of the arguments have been given with leading and trailing white space' do
       let(:consumer) { '    Foo Consumer     ' }
       let(:provider) { '    Bar Provider     ' }
 
@@ -80,6 +80,16 @@ describe Pact::Init::Provider do
         expect(actual).to eq(expected)
       end
 
+    end
+
+    context 'when the consumer name has a dash it it' do
+      let(:consumer) { '    Foo-Consumer     ' }
+      let(:arguments) { {consumer: consumer, spec_dir: spec_dir} }
+      let(:provider_states_file) { File.join(consumer_dir, 'provider_states_for_foo_consumer.rb') }
+
+      it 'is replaced with an underscore when creating the provider states file' do
+        expect(File.exist?(provider_states_file)).to be true
+      end
     end
 
   end

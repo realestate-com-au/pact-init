@@ -45,7 +45,7 @@ module Pact
       end
 
       def provider_to_symb
-        provider_name.downcase.gsub(' ', '_')
+        provider_name.downcase.gsub(/[\s\-]+/, '_')
       end
     end
   end

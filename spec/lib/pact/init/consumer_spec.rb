@@ -66,7 +66,17 @@ describe Pact::Init::Consumer do
         actual = File.read(pact_helper_file)
         expect(actual).to eq(expected)
       end
+    end
 
+    context 'when the provider name has a dash in it' do
+
+      let(:provider) { 'Bar-Provider' }
+
+      let(:arguments) { {provider: provider, spec_dir: spec_dir} }
+
+      it 'is replaced with an underscore when creating the mock service name' do
+        expect(File.read(pact_helper_file)).to include 'mock_service :bar_provider do'
+      end
     end
   end
 end

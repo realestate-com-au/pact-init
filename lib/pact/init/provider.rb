@@ -56,7 +56,7 @@ module Pact
       end
 
       def consumer_name_to_snakecase
-        consumer_name.downcase.gsub(' ', '_')
+        consumer_name.downcase.gsub(/[\s\-]+/, '_')
       end
     end
   end
